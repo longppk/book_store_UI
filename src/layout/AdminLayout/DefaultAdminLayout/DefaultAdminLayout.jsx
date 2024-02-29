@@ -10,7 +10,7 @@ function DefaultAdminLayout({ children }) {
             </div>
             <div className="w-10/12 mt-20">
                 <Header />
-                <div className="ps-5">{children}</div>
+                <div className="pl-10">{children}</div>
             </div>
         </div>
     );

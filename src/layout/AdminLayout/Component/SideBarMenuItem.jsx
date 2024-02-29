@@ -24,7 +24,7 @@ function SideBarMenuItem({ title, icon, value, separate, dropdownMenu, active, o
     return (
         <li className={`${separate && 'pb-2 border-b'}`}>
             <MyLi
-                class={`flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-purple-400 dark:text-white dark:hover:bg-gray-700 ${
+                className={`flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-purple-400 dark:text-white dark:hover:bg-gray-700 ${
                     active && 'bg-purple-500'
                 }`}
                 {...props}
@@ -38,7 +38,7 @@ function SideBarMenuItem({ title, icon, value, separate, dropdownMenu, active, o
                     {icon}
                 </div>
                 <span
-                    class={`flex-1 ms-3 text-left rtl:text-right whitespace-nowrap group-hover:text-white ${
+                    className={`flex-1 ms-3 text-left rtl:text-right whitespace-nowrap group-hover:text-white ${
                         active && 'text-white'
                     }`}
                 >
@@ -49,12 +49,12 @@ function SideBarMenuItem({ title, icon, value, separate, dropdownMenu, active, o
                 )}
             </MyLi>
             {dropdownMenu?.length !== 0 && isnDropdownMenuOpen && (
-                <ul class="py-2 space-y-2">
+                <ul className="py-2 space-y-2">
                     {dropdownMenu.map((item) => (
                         <li>
                             <Link
                                 to={'/admin/' + value + '/' + item.value}
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                                className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                             >
                                 {item.title}
                             </Link>

@@ -1,3 +1,4 @@
+import Breadcrumb from '../../../components/Breadcrumb';
 import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
 // import Sidebar from '../Component/Sidebar';
@@ -10,7 +11,10 @@ function DefaultAdminLayout({ children }) {
             </div>
             <div className="w-10/12 mt-20">
                 <Header />
-                <div className="pl-10">{children}</div>
+                <div className="pl-10 ">
+                    <Breadcrumb />
+                    {children}
+                </div>
             </div>
         </div>
     );

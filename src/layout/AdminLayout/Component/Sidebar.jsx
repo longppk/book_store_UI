@@ -16,8 +16,8 @@ function Sidebar() {
                     </h1>
                 </div>
                 <ul className="space-y-2 font-medium">
-                    {SidebarAdminMenuData.map((sidebarItem) => (
-                        <SideBarMenuItem key={sidebarItem.value} {...sidebarItem} />
+                    {SidebarAdminMenuData.map((sidebarItem, index) => (
+                        <SideBarMenuItem key={index} {...sidebarItem} />
                     ))}
                 </ul>
             </div>

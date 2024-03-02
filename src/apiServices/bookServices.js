@@ -11,3 +11,16 @@ export const search = async (title, size, cPage) => {
         console.log(error);
     }
 };
+
+export const addNewBook = async (formData) => {
+    try {
+        const res = await bookRequest.post('', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log('Add movie error!');
+    }
+};

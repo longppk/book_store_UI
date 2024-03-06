@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import BookTable from './page/Admin/Table/Book/BookTable';
 import AddNewBook from './page/Admin/Table/Book/AddNewBook';
+import EditBook from './page/Admin/Table/Book/EditBook';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/admin/dashboard" element={<DashBoardAdmin />}></Route>
                 <Route path="/admin/table/book" element={<BookTable />}></Route>
                 <Route path="/admin/table/book/add" element={<AddNewBook />} />
+                <Route path="/admin/table/book/edit/:bookId" element={<EditBook />} />
             </Routes>
         </>
     );

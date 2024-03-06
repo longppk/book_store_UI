@@ -2,15 +2,31 @@ import PropTypes from 'prop-types';
 import { FaPlus } from 'react-icons/fa6';
 import { BiSort } from 'react-icons/bi';
 import { Link, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDebounce, useNotify } from '../../hooks';
+import classNames from 'classnames';
+import DeleteDialog from './DeleteDialog';
 
 const deF = (e) => {};
 
-function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, onPrevPage = deF, onSearch = deF }) {
+function NormalTable({
+    name,
+    labels,
+    data,
+    pagination,
+    sort,
+    onNextPage = deF,
+    onPrevPage = deF,
+    onSearch = deF,
+    onCheck = deF,
+    onDelete = deF,
+}) {
     const [paginationInfo, setPaginationInfo] = useState(pagination);
     const notify = useNotify();
     const [searchValue, setSearchValue] = useState('');
+    const [listItemChecked, setListItemChecked] = useState([]);
+    const [isCheckAll, setIsCheckAll] = useState(false);
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
     const debounce = useDebounce(searchValue, 500);
     const { pathname } = useLocation();
     const handleSearchChange = (e) => {
@@ -19,6 +35,7 @@ function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, o
 
     useEffect(() => {
         onSearch(debounce);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce]);
 
     const handleNextPage = () => {
@@ -44,8 +61,51 @@ function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, o
             notify('This is the first page!', 'error');
         }
     };
+
+    const handleCheckAll = () => {
+        if (!isCheckAll) {
+            const listIds = data.map((item) => item.id);
+            setListItemChecked(listIds);
+            onCheck(listIds);
+        } else {
+            setListItemChecked([]);
+            onCheck([]);
+        }
+        setIsCheckAll((prev) => !prev);
+    };
+
+    const handleCheck = (id) => {
+        let listIds;
+        if (listItemChecked.includes(id)) {
+            listIds = listItemChecked.filter((item) => item !== id);
+        } else {
+            listIds = [...listItemChecked, id];
+        }
+        if (listIds?.length === data?.length) {
+            setIsCheckAll(true);
+        } else {
+            setIsCheckAll(false);
+        }
+        setListItemChecked(listIds);
+        onCheck(listIds);
+    };
+
+    const handleToggleDeleteDialog = useCallback(() => {
+        setIsDeleteDialogOpen((prev) => !prev);
+    }, []);
+
+    const handleDeleteBooks = useCallback(() => {
+        onDelete();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listItemChecked]);
+
     return (
         <div className="p-3 relative overflow-x-auto shadow-md bg-white sm:rounded-lg">
+            <DeleteDialog
+                isOpen={isDeleteDialogOpen}
+                onClose={handleToggleDeleteDialog}
+                onConfirm={handleDeleteBooks}
+            />
             <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
                 <div className="">
                     <button
@@ -62,6 +122,17 @@ function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, o
                         <FaPlus className="w-3.5 h-3.5 me-2" />
                         Add new {name}
                     </Link>
+                    <button
+                        type="button"
+                        className={classNames('text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center', {
+                            'bg-red-300 dark:bg-red-500 cursor-not-allowed': listItemChecked?.length === 0,
+                            'bg-red-500 dark:bg-red-700 cursor-pointer ': listItemChecked?.length !== 0,
+                        })}
+                        disabled={listItemChecked?.length === 0}
+                        onClick={handleToggleDeleteDialog}
+                    >
+                        Delete
+                    </button>
                 </div>
                 <label htmlFor="table-search" className="sr-only">
                     Search
@@ -100,6 +171,8 @@ function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, o
                                     id="checkbox-all-search"
                                     type="checkbox"
                                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    checked={isCheckAll}
+                                    onChange={handleCheckAll}
                                 />
                                 <label htmlFor="checkbox-all-search" className="sr-only">
                                     checkbox
@@ -128,6 +201,8 @@ function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, o
                                             id="checkbox-table-search-1"
                                             type="checkbox"
                                             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            checked={listItemChecked.includes(dataItem.id)}
+                                            onChange={() => handleCheck(dataItem.id)}
                                         />
                                         <label htmlFor="checkbox-table-search-1" className="sr-only">
                                             checkbox
@@ -146,12 +221,12 @@ function NormalTable({ name, labels, data, pagination, sort, onNextPage = deF, o
                                     </td>
                                 ))}
                                 <td className="px-6 py-4">
-                                    <a
-                                        href="#"
+                                    <Link
+                                        to={pathname + '/edit/' + dataItem.id}
                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                                     >
                                         Edit
-                                    </a>
+                                    </Link>
                                 </td>
                             </tr>
                         ))}

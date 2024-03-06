@@ -1,8 +1,9 @@
 import DefaultAdminLayout from '../../../../layout/AdminLayout/DefaultAdminLayout/DefaultAdminLayout';
 import NormalTable from '../../../../components/tables/NormalTable';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { bookServices } from '../../../../apiServices';
 import Skeleton from 'react-loading-skeleton';
+import { useNotify } from '../../../../hooks';
 const tableLabels = ['title', 'language', 'price', 'publishDate', 'quantity', 'action'];
 
 function BookTable() {
@@ -13,7 +14,9 @@ function BookTable() {
         totalPage: 0,
         totalResult: 0,
     }));
+    const notify = useNotify();
     const [searchValue, setSearchValue] = useState('');
+    const [listBookIdsChecked, setListBookIdsChecked] = useState([]);
 
     const myNumberFormat = new Intl.NumberFormat('en-us', { maximumFractionDigits: 5 });
     useEffect(() => {
@@ -54,6 +57,29 @@ function BookTable() {
         setSearchValue(value);
     };
 
+    const handleCheck = (bookIds) => {
+        setListBookIdsChecked(() => bookIds);
+    };
+
+    const handleDeleteBook = useCallback(() => {
+        const deleteBooksCall = async () => {
+            const resD = await bookServices.deleteBooks(listBookIdsChecked);
+            if (resD && resD.rspCode === '200') {
+                const res = await bookServices.search('', 7, 1);
+                if (res) {
+                    setPaginationInfo((prev) => ({
+                        ...prev,
+                        ...res.pagination,
+                    }));
+                    setListBooks(res.data);
+                }
+                notify(resD.message);
+            }
+        };
+        deleteBooksCall();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [listBookIdsChecked]);
+
     return (
         <div>
             <DefaultAdminLayout>
@@ -76,6 +102,8 @@ function BookTable() {
                         onNextPage={handleNextPage}
                         onPrevPage={handlePrevPage}
                         onSearch={handleSearchValueChange}
+                        onCheck={handleCheck}
+                        onDelete={handleDeleteBook}
                     />
                 ) : (
                     <Skeleton height={600} />

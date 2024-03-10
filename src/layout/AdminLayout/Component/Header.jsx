@@ -4,7 +4,7 @@ import { CiMail, CiBellOn, CiSearch } from 'react-icons/ci';
 
 function Header() {
     return (
-        <header className="fixed top-0 w-10/12 px-6 bg-white h-16 flex place-content-between">
+        <header className="fixed top-0 w-10/12 px-6 bg-white h-16 flex place-content-between z-50">
             <div className="flex-initial w-1/2 flex items-center">
                 <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
                     Search

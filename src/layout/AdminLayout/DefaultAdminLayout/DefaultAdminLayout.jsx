@@ -1,9 +1,11 @@
 import Breadcrumb from '../../../components/Breadcrumb';
 import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
+import { adminRoutes } from '../../../routes';
+import { Route, Routes } from 'react-router-dom';
 // import Sidebar from '../Component/Sidebar';
 
-function DefaultAdminLayout({ children }) {
+function DefaultAdminLayout() {
     return (
         <div className="flex">
             <div className="w-2/12">
@@ -13,7 +15,13 @@ function DefaultAdminLayout({ children }) {
                 <Header />
                 <div className="pl-10 ">
                     <Breadcrumb />
-                    {children}
+                    <Routes>
+                        {adminRoutes.map(
+                            ({ layout, pages }) =>
+                                layout === 'dashboard' &&
+                                pages.map(({ path, element }) => <Route exact path={path} element={element} />),
+                        )}
+                    </Routes>
                 </div>
             </div>
         </div>

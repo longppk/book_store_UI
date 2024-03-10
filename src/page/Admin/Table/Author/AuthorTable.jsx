@@ -1,32 +1,31 @@
 import NormalTable from '../../../../components/tables/NormalTable';
 import { useCallback, useEffect, useState } from 'react';
-import { bookServices } from '../../../../apiServices';
+import { authorServices } from '../../../../apiServices';
 import Skeleton from 'react-loading-skeleton';
-import { useNotify } from '../../../../hooks';
-const tableLabels = ['title', 'language', 'price', 'publishDate', 'quantity', 'action'];
+const tableLabels = ['alias', 'id', 'name', 'action'];
 
-function BookTable() {
-    const [listBooks, setListBooks] = useState();
+function AuthorTable() {
+    const [listAuthors, setListAuthors] = useState();
     const [paginationInfo, setPaginationInfo] = useState(() => ({
         currentPage: 1,
         size: 7,
         totalPage: 0,
         totalResult: 0,
     }));
-    const notify = useNotify();
     const [searchValue, setSearchValue] = useState('');
-    const [listBookIdsChecked, setListBookIdsChecked] = useState([]);
+    // const [listAuthorIdsChecked, setListAuthorIdsChecked] = useState([]);
 
     const myNumberFormat = new Intl.NumberFormat('en-us', { maximumFractionDigits: 5 });
     useEffect(() => {
-        const fetchBookLists = async (title, size, cPage) => {
-            const res = await bookServices.search(title, size, cPage);
+        const fetchBookLists = async (name, size, cPage) => {
+            const res = await authorServices.searchWithoutTransform(name, size, cPage);
+            // console.log(res);
             if (res) {
                 setPaginationInfo((prev) => ({
                     ...prev,
                     ...res.pagination,
                 }));
-                setListBooks(res.data);
+                setListAuthors(res.data);
             }
         };
 
@@ -42,19 +41,19 @@ function BookTable() {
         }));
     }, []);
 
-    const handleNextPage = useCallback((nextPage) => {
+    const handleNextPage = (nextPage) => {
         setPaginationInfo((prev) => ({
             ...prev,
             currentPage: nextPage,
         }));
-    }, []);
+    };
 
-    const handlePrevPage = useCallback((prevPage) => {
+    const handlePrevPage = (prevPage) => {
         setPaginationInfo((prev) => ({
             ...prev,
             currentPage: prevPage,
         }));
-    }, []);
+    };
 
     const handleSearchValueChange = (value) => {
         setPaginationInfo((prev) => ({
@@ -64,34 +63,15 @@ function BookTable() {
         setSearchValue(value);
     };
 
-    const handleCheck = (bookIds) => {
-        setListBookIdsChecked(() => bookIds);
-    };
-
-    const handleDeleteBook = useCallback(() => {
-        const deleteBooksCall = async () => {
-            const resD = await bookServices.deleteBooks(listBookIdsChecked);
-            if (resD && resD.rspCode === '200') {
-                const res = await bookServices.search('', 7, 1);
-                if (res) {
-                    setPaginationInfo((prev) => ({
-                        ...prev,
-                        ...res.pagination,
-                    }));
-                    setListBooks(res.data);
-                }
-                notify(resD.message);
-            }
-        };
-        deleteBooksCall();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [listBookIdsChecked]);
+    // const handleCheck = (authorIds) => {
+    //     setListAuthorIdsChecked(() => authorIds);
+    // };
 
     return (
         <div>
             <>
                 <h1 className="my-5 ml-2 text-2xl font-semibold">
-                    Books{' '}
+                    Authors{' '}
                     {paginationInfo.totalResult !== 0 ? (
                         <span className="text-gray-500 font-thin">
                             {myNumberFormat.format(paginationInfo.totalResult)}
@@ -100,17 +80,17 @@ function BookTable() {
                         <Skeleton className="inline" width={100} />
                     )}
                 </h1>
-                {listBooks ? (
+                {listAuthors ? (
                     <NormalTable
-                        name="book"
+                        name="author"
+                        deleteBtn={false}
                         labels={tableLabels}
-                        data={listBooks}
+                        data={listAuthors}
                         pagination={paginationInfo}
                         onNextPage={handleNextPage}
                         onPrevPage={handlePrevPage}
                         onSearch={handleSearchValueChange}
-                        onCheck={handleCheck}
-                        onDelete={handleDeleteBook}
+                        // onCheck={handleCheck}
                         onSelectSize={handleSelectSize}
                     />
                 ) : (
@@ -121,4 +101,4 @@ function BookTable() {
     );
 }
 
-export default BookTable;
+export default AuthorTable;

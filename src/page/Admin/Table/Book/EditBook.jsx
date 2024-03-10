@@ -1,5 +1,4 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import DefaultAdminLayout from '../../../../layout/AdminLayout/DefaultAdminLayout/DefaultAdminLayout';
 import { useEffect, useState } from 'react';
 import AsyncSelect from 'react-select/async';
 import { authorServices, bookServices, genreServices } from '../../../../apiServices';
@@ -275,6 +274,8 @@ function EditBook() {
                 if (res && res.rspCode === '200') {
                     notify(res.message);
                     navigate(-1);
+                } else if (res && res.state === 'error') {
+                    notify(res.message, 'error');
                 } else {
                     notify('Add new book error!', 'error');
                 }
@@ -284,7 +285,7 @@ function EditBook() {
         }
     };
     return (
-        <DefaultAdminLayout>
+        <>
             <h1 className="my-5 ml-2 text-2xl font-semibold">Edit book</h1>
             <div className="bg-white w-full p-5">
                 {bookInfo.title !== '' ? (
@@ -474,7 +475,7 @@ function EditBook() {
                     <Skeleton count={25} />
                 )}
             </div>
-        </DefaultAdminLayout>
+        </>
     );
 }
 

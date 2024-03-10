@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import DefaultAdminLayout from '../../../../layout/AdminLayout/DefaultAdminLayout/DefaultAdminLayout';
 import AsyncSelect from 'react-select/async';
 import { authorServices, bookServices, genreServices } from '../../../../apiServices';
 import MyCustomInput from '../../../../components/MyCustomInput';
@@ -276,6 +275,8 @@ function AddNewBook() {
                         genres: [],
                     }));
                     setListImages(() => ({ imagesValid: true, imagesErrorMessage: '', images: [] }));
+                } else if (res && res.state === 'error') {
+                    notify(res.message, 'error');
                 } else {
                     notify('Add new book error!', 'error');
                 }
@@ -286,7 +287,7 @@ function AddNewBook() {
     };
 
     return (
-        <DefaultAdminLayout>
+        <>
             <h1 className="my-5 ml-2 text-2xl font-semibold">Add new book here</h1>
             <div className="bg-white w-full p-5">
                 <form className="mx-auto">
@@ -462,7 +463,7 @@ function AddNewBook() {
                     </button>
                 </form>
             </div>
-        </DefaultAdminLayout>
+        </>
     );
 }
 

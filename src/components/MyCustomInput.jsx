@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
@@ -27,6 +27,13 @@ function MyCustomInput({
         isValid: true,
     }));
     const [errorMessage, setErrorMessage] = useState('');
+
+    useEffect(() => {
+        setInputValue((prev) => ({
+            ...prev,
+            value: '',
+        }));
+    }, [value]);
 
     const lengthErrorMessage = (l) => {
         return 'This field has a maximum of ' + l + ' characters.';

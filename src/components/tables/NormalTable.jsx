@@ -2,10 +2,21 @@ import PropTypes from 'prop-types';
 import { FaPlus } from 'react-icons/fa6';
 import { BiSort } from 'react-icons/bi';
 import { Link, useLocation } from 'react-router-dom';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, Fragment } from 'react';
 import { useDebounce, useNotify } from '../../hooks';
 import classNames from 'classnames';
 import DeleteDialog from './DeleteDialog';
+import { PiCaretUpDown } from 'react-icons/pi';
+import { IoMdCheckmark } from 'react-icons/io';
+import { Listbox, Transition } from '@headlessui/react';
+
+const sizes = [
+    { label: 'Size: 7', value: 7 },
+    { label: 'Size: 14', value: 14 },
+    { label: 'Size: 20', value: 20 },
+    { label: 'Size: 50', value: 50 },
+    { label: 'Size: 100', value: 100 },
+];
 
 const deF = (e) => {};
 
@@ -15,13 +26,17 @@ function NormalTable({
     data,
     pagination,
     sort,
+    deleteBtn = true,
+    addBtn = true,
+    actionCol = true,
     onNextPage = deF,
     onPrevPage = deF,
     onSearch = deF,
     onCheck = deF,
     onDelete = deF,
+    onSelectSize = deF,
 }) {
-    const [paginationInfo, setPaginationInfo] = useState(pagination);
+    const [paginationInfo, setPaginationInfo] = useState();
     const notify = useNotify();
     const [searchValue, setSearchValue] = useState('');
     const [listItemChecked, setListItemChecked] = useState([]);
@@ -32,11 +47,26 @@ function NormalTable({
     const handleSearchChange = (e) => {
         setSearchValue(e.target.value);
     };
+    const [selected, setSelected] = useState(sizes[0]);
 
     useEffect(() => {
         onSearch(debounce);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debounce]);
+
+    useEffect(() => {
+        setPaginationInfo(pagination);
+    }, [pagination]);
+
+    const handleSelectSize = (sizeInfo) => {
+        setSelected(sizeInfo);
+        setPaginationInfo((prev) => ({
+            ...prev,
+            currentPage: 1,
+            size: sizeInfo.value,
+        }));
+        onSelectSize(sizeInfo.value);
+    };
 
     const handleNextPage = () => {
         if (paginationInfo.currentPage + 1 <= paginationInfo.totalPage) {
@@ -46,7 +76,7 @@ function NormalTable({
                 currentPage: prev.currentPage + 1,
             }));
         } else {
-            notify('This is the last page!', 'error!');
+            notify('This is the last page!', 'error');
         }
     };
 
@@ -107,7 +137,7 @@ function NormalTable({
                 onConfirm={handleDeleteBooks}
             />
             <div className="flex flex-column sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
-                <div className="">
+                <div className="flex gap-x-2">
                     <button
                         type="button"
                         className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
@@ -115,24 +145,82 @@ function NormalTable({
                         Sort
                         <BiSort className="w-3.5 h-3.5 ms-2" />
                     </button>
-                    <Link
-                        to={pathname + '/add'}
-                        className="focus:outline-none text-white bg-purple-500 hover:bg-purple-600 focus:ring-4 focus:ring-purple-300 font-semibold rounded-lg text-sm inline-flex items-center me-2 px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
-                    >
-                        <FaPlus className="w-3.5 h-3.5 me-2" />
-                        Add new {name}
-                    </Link>
-                    <button
-                        type="button"
-                        className={classNames('text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center', {
-                            'bg-red-300 dark:bg-red-500 cursor-not-allowed': listItemChecked?.length === 0,
-                            'bg-red-500 dark:bg-red-700 cursor-pointer ': listItemChecked?.length !== 0,
-                        })}
-                        disabled={listItemChecked?.length === 0}
-                        onClick={handleToggleDeleteDialog}
-                    >
-                        Delete
-                    </button>
+                    <div className="w-32">
+                        <Listbox value={selected} onChange={handleSelectSize}>
+                            <div className="relative mt-1">
+                                <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
+                                    <span className="block truncate">{selected.label}</span>
+                                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <PiCaretUpDown className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                    </span>
+                                </Listbox.Button>
+                                <Transition
+                                    as={Fragment}
+                                    leave="transition ease-in duration-100"
+                                    leaveFrom="opacity-100"
+                                    leaveTo="opacity-0"
+                                >
+                                    <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                        {sizes.map((size, sizeIdx) => (
+                                            <Listbox.Option
+                                                key={sizeIdx}
+                                                className={({ active }) =>
+                                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                                        active ? 'bg-gray-100 text-purple-500' : 'text-gray-900'
+                                                    }`
+                                                }
+                                                value={size}
+                                            >
+                                                {({ selected }) => (
+                                                    <>
+                                                        <span
+                                                            className={`block truncate ${
+                                                                selected ? 'font-medium' : 'font-normal'
+                                                            }`}
+                                                        >
+                                                            {size.label}
+                                                        </span>
+                                                        {selected ? (
+                                                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-green-300">
+                                                                <IoMdCheckmark className="h-5 w-5" aria-hidden="true" />
+                                                            </span>
+                                                        ) : null}
+                                                    </>
+                                                )}
+                                            </Listbox.Option>
+                                        ))}
+                                    </Listbox.Options>
+                                </Transition>
+                            </div>
+                        </Listbox>
+                    </div>
+                    {addBtn && (
+                        <Link
+                            to={pathname + '/add'}
+                            className="focus:outline-none text-white bg-purple-500 hover:bg-purple-600 focus:ring-4 focus:ring-purple-300 font-semibold rounded-lg text-sm inline-flex items-center me-2 px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900"
+                        >
+                            <FaPlus className="w-3.5 h-3.5 me-2" />
+                            Add new {name}
+                        </Link>
+                    )}
+                    {deleteBtn && (
+                        <div>
+                            <button
+                                type="button"
+                                className={classNames(
+                                    'text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center',
+                                    {
+                                        'bg-red-300 dark:bg-red-500 cursor-not-allowed': listItemChecked?.length === 0,
+                                        'bg-red-500 dark:bg-red-700 cursor-pointer ': listItemChecked?.length !== 0,
+                                    },
+                                )}
+                                disabled={listItemChecked?.length === 0}
+                                onClick={handleToggleDeleteDialog}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <label htmlFor="table-search" className="sr-only">
                     Search
@@ -215,19 +303,28 @@ function NormalTable({
                                 >
                                     {dataItem[labels[0]]}
                                 </th>
-                                {labels.slice(1, labels?.length - 1).map((label) => (
-                                    <td key={label} className="px-6 py-4">
-                                        {dataItem[label]}
+                                {actionCol &&
+                                    labels.slice(1, labels?.length - 1).map((label) => (
+                                        <td key={label} className="px-6 py-4">
+                                            {dataItem[label]}
+                                        </td>
+                                    ))}
+                                {!actionCol &&
+                                    labels.slice(1, labels?.length).map((label) => (
+                                        <td key={label} className="px-6 py-4">
+                                            {dataItem[label]}
+                                        </td>
+                                    ))}
+                                {actionCol && (
+                                    <td className="px-6 py-4">
+                                        <Link
+                                            to={pathname + '/edit/' + dataItem.id}
+                                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                                        >
+                                            Edit
+                                        </Link>
                                     </td>
-                                ))}
-                                <td className="px-6 py-4">
-                                    <Link
-                                        to={pathname + '/edit/' + dataItem.id}
-                                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                                    >
-                                        Edit
-                                    </Link>
-                                </td>
+                                )}
                             </tr>
                         ))}
                 </tbody>
@@ -263,6 +360,7 @@ NormalTable.prototype = {
     onNextPage: PropTypes.func,
     onPrevPage: PropTypes.func,
     onSearch: PropTypes.func,
+    onSelectSize: PropTypes.func,
 };
 
 export default NormalTable;

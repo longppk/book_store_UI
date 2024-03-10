@@ -12,14 +12,13 @@ import {
 } from 'recharts';
 
 import StatisticalCard from '../../components/cards/StatisticalCard';
-import DefaultAdminLayout from '../../layout/AdminLayout/DefaultAdminLayout/DefaultAdminLayout';
 import { StatisticalDashboardData } from '../../Data';
 import { TestChartData } from '../../Data/TestChartData';
 import TestTable from '../../components/tables/TestTable';
 
 function DashBoardAdmin() {
     return (
-        <DefaultAdminLayout>
+        <>
             <div className="p-3 my-5 grid grid-cols-4 gap-4">
                 {StatisticalDashboardData.map((statisticalItem) => (
                     <StatisticalCard key={statisticalItem.title} {...statisticalItem} />
@@ -72,7 +71,7 @@ function DashBoardAdmin() {
                 </ResponsiveContainer>
             </div>
             <TestTable />
-        </DefaultAdminLayout>
+        </>
     );
 }
 

@@ -11,7 +11,6 @@ const HomePage = () => {
             <Layout>
                 <HomeBanner></HomeBanner>
                 <BookCategory></BookCategory>
-                <Footer></Footer>
             </Layout>
         </div>
     );

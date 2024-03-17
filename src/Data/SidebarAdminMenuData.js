@@ -1,8 +1,9 @@
-import { FaRegChartBar, FaUserFriends, FaRegCalendarCheck } from 'react-icons/fa';
+import { FaRegChartBar, FaUserFriends } from 'react-icons/fa';
 import { BsTable } from 'react-icons/bs';
 import { TbLogin2 } from 'react-icons/tb';
 import { SlNote } from 'react-icons/sl';
 import { IoExitOutline } from 'react-icons/io5';
+import { RiShoppingCartLine } from 'react-icons/ri';
 export const SidebarAdminMenuData = [
     {
         title: 'Dashboard',
@@ -34,9 +35,9 @@ export const SidebarAdminMenuData = [
         ],
     },
     {
-        title: 'Todo',
-        icon: <FaRegCalendarCheck />,
-        value: 'todo',
+        title: 'Orders',
+        icon: <RiShoppingCartLine />,
+        value: 'order',
         dropdownMenu: [],
     },
     {

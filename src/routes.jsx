@@ -11,6 +11,8 @@ import AddVoucher from './page/Admin/Table/Voucher/AddVoucher';
 import EditVoucher from './page/Admin/Table/Voucher/EditVoucher';
 import VoucherTable from './page/Admin/Table/Voucher/VoucherTable';
 import DashBoardAdmin from './page/Admin/dashboard';
+import OrderTable from './page/Admin/order/orderTable';
+import UpdateOrderStatus from './page/Admin/order/updateOrderStatus';
 import Users from './page/Admin/users';
 
 export const adminRoutes = [
@@ -86,6 +88,16 @@ export const adminRoutes = [
                 name: 'users',
                 path: '/users',
                 element: <Users />,
+            },
+            {
+                name: 'order',
+                path: '/order',
+                element: <OrderTable />,
+            },
+            {
+                name: 'update_status',
+                path: '/order/edit/:orderId',
+                element: <UpdateOrderStatus />,
             },
         ],
     },

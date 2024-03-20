@@ -1,8 +1,6 @@
 import React from 'react';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-
 import styles from './CartItem.module.scss';
 import { faSquare, faSquareCheck, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 function CartItem({ cart, index, onCheck, checked }) {
@@ -14,26 +12,23 @@ function CartItem({ cart, index, onCheck, checked }) {
                     {checked && <FontAwesomeIcon icon={faSquareCheck} />}
                 </div>
                 <div className={styles.imageCart}>
-                    <img
-                        className={styles.imageItems}
-                        alt=""
-                        // src={`http://localhost:8086/api/cart/upload/imageCart/${cart.id}`}
-                        src="https://i.pinimg.com/564x/01/16/37/011637a289e407972b469e57d3b069fd.jpg"
-                    />
+                    {cart.book.bookImage &&
+                        cart.book.bookImage.slice(0, 1).map((item, index) => (
+                            <img
+                                key={index}
+                                className={styles.imageItems}
+                                alt=""
+                                // src={`http://localhost:8086/api/cart/upload/imageCart/${cart.id}`}
+                                src={item}
+                            />
+                        ))}
                 </div>
                 <div className={styles.cartFrame}>
                     <section className={styles.cartSection}>
-                        <span className={styles.headerCart}>
-                            <h2 className={styles.tourName}>{cart.productName}</h2>
-                        </span>
                         <div className={styles.bodyCart}>
-                            <ul className={styles.contentCart}>
-                                <li className={styles.contentCartItem}>Nhà cung cấp : {cart.supplier}</li>
-                                <li className={styles.contentCartItem}>Tour : {cart.day_tour}</li>
-                                <li className={styles.contentCartItem}>Địa điểm : {cart.location}</li>
-                                <li className={styles.contentCartItem}>Ngày khởi hành : {cart.check_in_date}</li>
-                                <li className={styles.contentCartItem}>Dịch vụ : {cart.service_tour}</li>
-                            </ul>
+                            <span className={styles.headerCart}>
+                                <h2 className={styles.tourName}>{cart.book.bookName}</h2>
+                            </span>
                             <FontAwesomeIcon
                                 icon={faTrashCan}
                                 className={styles.iconTrash}
@@ -48,15 +43,15 @@ function CartItem({ cart, index, onCheck, checked }) {
                                 className={styles.iconMinus}
                                 // onClick={() => handleDecrement(index, cart.yourBookingId, cart.id)}
                             />
-                            <input className={styles.quantityCart} value={cart.quantity} readOnly />
+                            <input className={styles.quantityCart} value={cart.cartQuantity} readOnly />
                             <FontAwesomeIcon
                                 icon={faPlus}
                                 className={styles.iconPlus}
                                 // onClick={() => handleIncrement(index)}
                             />
                         </span>
-                        <span className={styles.cartPrice}>{cart.priceTour}₫</span>
-                        <span className={styles.totalPrice}>{cart.priceTour * cart.quantity}₫</span>
+                        <span className={styles.cartPrice}>{cart.book.bookPrice}₫</span>
+                        <span className={styles.totalPrice}>{cart.book.bookPrice * cart.cartQuantity}₫</span>
                     </article>
                 </div>
             </div>

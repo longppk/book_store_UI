@@ -1,7 +1,7 @@
 .containerCart {
     display: flex;
     height: 90vh;
-
+    padding-top: 80px;
     .ownerCart {
         width: 30%;
         // border-right: 1px solid hsl(0, 0%, 20%);
@@ -57,7 +57,7 @@
             height: 15%;
             border-radius: 5px;
             display: flex;
-            background: #fcddef;
+            background: #e1e1e1;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             // border: 1px solid #333;
             .paymentGroup {

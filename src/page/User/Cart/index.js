@@ -4,54 +4,9 @@ import { ToastContainer } from 'react-toastify';
 import CartHandler from './CartHandler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
+import Header from '../../../layout/Header';
 
 function Cart() {
-    const cartData = [
-        {
-            id: 1,
-            productName: 'Tour 1',
-            supplier: 'Traveloka',
-            day_tour: '3',
-            location: 'Viet Nam',
-            service_tour: 'all service',
-            priceTour: 3333333,
-            quantity: 1,
-            check_in_date: '28-03-2024',
-        },
-        {
-            id: 2,
-            productName: 'Tour 1',
-            supplier: 'Traveloka',
-            day_tour: '3',
-            location: 'Viet Nam',
-            service_tour: 'all service',
-            priceTour: 3333333,
-            quantity: 2,
-            check_in_date: '28-03-2024',
-        },
-        {
-            id: 3,
-            productName: 'Tour 1',
-            supplier: 'Traveloka',
-            day_tour: '3',
-            location: 'Viet Nam',
-            service_tour: 'all service',
-            priceTour: 3333333,
-            quantity: 3,
-            check_in_date: '28-03-2024',
-        },
-        {
-            id: 4,
-            productName: 'Tour 1',
-            supplier: 'Traveloka',
-            day_tour: '3',
-            location: 'Viet Nam',
-            service_tour: 'all service',
-            priceTour: 3333333,
-            quantity: 4,
-            check_in_date: '28-03-2024',
-        },
-    ];
     const {
         cartItems,
         checkAllCart,
@@ -60,13 +15,14 @@ function Cart() {
         handleCheckAllCart,
         handleCheckItems,
         handleCheckOut,
-    } = CartHandler({ initialTotalPrice: 0, initialCheckAllCart: false, initialCart: cartData });
+    } = CartHandler({ initialTotalPrice: 0, initialCheckAllCart: false });
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
     });
     return (
         <>
+            <Header />
             <div className={styles.containerCart}>
                 <div className={styles.infoCart}>
                     <div className={styles.checkOutItem}>
@@ -103,10 +59,10 @@ function Cart() {
                         {cartItems &&
                             cartItems.map((cart, index) => (
                                 <CartItem
-                                    key={cart.id}
+                                    key={cart.cartId}
                                     cart={cart}
                                     index={index}
-                                    onCheck={() => handleCheckItems(cart.id)}
+                                    onCheck={() => handleCheckItems(cart.cartId)}
                                     checked={cart.checked}
                                 />
                             ))}

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IoNotificationsOutline, IoCartOutline, IoSearchOutline } from 'react-icons/io5';
 import { MdAccountCircle } from 'react-icons/md';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const HeaderStyles = styled.div`
     top: 0;
@@ -70,6 +71,12 @@ const HeaderStyles = styled.div`
 `;
 
 const Header = () => {
+    const navigate = useNavigate();
+    const [search, setSearch] = useState('');
+    const handleSearch = () => {
+        // alert(search);
+        navigate('/list', { state: { search: `${search}` } });
+    };
     return (
         <HeaderStyles>
             <div>
@@ -99,8 +106,13 @@ const Header = () => {
                         <span className="logo-name">Book.com</span>
                     </NavLink>
                     <div className="search">
-                        <input type="text" className="search-input" placeholder="search book" />
-                        <button className="search-icon">
+                        <input
+                            type="text"
+                            className="search-input"
+                            placeholder="search book"
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <button className="search-icon" onClick={handleSearch}>
                             <IoSearchOutline />
                         </button>
                     </div>
@@ -114,7 +126,7 @@ const Header = () => {
                             </NavLink>
                         </li>
                         <li className="menu-item">
-                            <NavLink to={'/cart'} className="menu-links">
+                            <NavLink to={'/user/cart'} className="menu-links">
                                 <div className="menu-icon">
                                     <IoCartOutline className="icon-item" />
                                     <span>Cart</span>

@@ -1,21 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import "./index.scss";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
-import { ThemeProvider } from "styled-components";
-import { GlobalStyles } from "./styles/GlobalStyles";
-import { theme } from "./utils/constants";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.scss';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { ThemeProvider } from 'styled-components';
+import { GlobalStyles } from './styles/GlobalStyles';
+import { theme } from './utils/constants';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <ThemeProvider theme={theme}>
-      <GlobalStyles></GlobalStyles>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </ThemeProvider>
+    <Provider store={store}>
+        <ToastContainer />
+        <ThemeProvider theme={theme}>
+            <GlobalStyles></GlobalStyles>
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </ThemeProvider>
+    </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

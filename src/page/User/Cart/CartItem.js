@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './CartItem.module.scss';
 import { faSquare, faSquareCheck, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-function CartItem({ cart, index, onCheck, checked }) {
+function CartItem({ cart, index, onCheck, checked, onIncrement, onDecrement, onDelete }) {
     return (
         <>
             <div key={index} className={styles.cartItem}>
@@ -32,7 +32,7 @@ function CartItem({ cart, index, onCheck, checked }) {
                             <FontAwesomeIcon
                                 icon={faTrashCan}
                                 className={styles.iconTrash}
-                                // onClick={() => handleDelete(cart.yourBookingId, cart.id)}
+                                onClick={() => onDelete(cart.cartId)}
                             />
                         </div>
                     </section>
@@ -41,13 +41,13 @@ function CartItem({ cart, index, onCheck, checked }) {
                             <FontAwesomeIcon
                                 icon={faMinus}
                                 className={styles.iconMinus}
-                                // onClick={() => handleDecrement(index, cart.yourBookingId, cart.id)}
+                                onClick={() => onDecrement(index, cart.cartId)}
                             />
                             <input className={styles.quantityCart} value={cart.cartQuantity} readOnly />
                             <FontAwesomeIcon
                                 icon={faPlus}
                                 className={styles.iconPlus}
-                                // onClick={() => handleIncrement(index)}
+                                onClick={() => onIncrement(index, cart.cartId)}
                             />
                         </span>
                         <span className={styles.cartPrice}>{cart.book.bookPrice}₫</span>

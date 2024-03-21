@@ -47,14 +47,25 @@ function CartHandler({ initialTotalPrice, initialCheckAllCart, initialCart }) {
         const newCart = cartItems.map((item) => ({ ...item, checked: !checkAllCart }));
         setCartItems(newCart);
     };
-    const handleCheckOut = () => {
-        if (totalPrice !== 0) {
-        } else {
-            toast.warning('Payment cannot be made if the item is not available');
-        }
-    };
+
     const handleChangeMethodPayment = (value) => {
         alert(value);
+    };
+    const handleIncrement = async (cartId) => {
+        alert(cartId);
+        // const res = await axios.put(`URL_API/${cartId}/increment`);
+    };
+
+    // Hàm giảm số lượng
+    const handleDecrement = async (cartId) => {
+        alert(cartId);
+        // const res = await axios.put(`URL_API/${cartId}/decrement`);
+    };
+
+    // Hàm xóa item
+    const handleDelete = async (cartId) => {
+        alert(cartId);
+        // const res = await axios.delete(`URL_API/${cartId}`);
     };
     return {
         cartItems,
@@ -63,7 +74,9 @@ function CartHandler({ initialTotalPrice, initialCheckAllCart, initialCart }) {
         handleChangeMethodPayment,
         handleCheckAllCart,
         handleCheckItems,
-        handleCheckOut,
+        handleDelete,
+        handleDecrement,
+        handleIncrement,
     };
 }
 export default CartHandler;

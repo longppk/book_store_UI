@@ -12,6 +12,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import { toast } from 'react-toastify';
 import Comment from './Comment';
 import Header from '../layout/Header';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../store/userSlice';
 function DetailBook() {
     const [rating] = useState(4.5);
     const [detailTour, setDetailTour] = useState({});
@@ -20,25 +22,11 @@ function DetailBook() {
     const token = localStorage.getItem('token');
     console.log('detail tour get id', bookId);
     const [controlTab, setControlTab] = useState(true);
-
+    const { isAuthenticated } = useSelector(selectUser);
     const { quantity, handleMinusQuantity, handlePlusQuantity, totalPriceRef } = DetailTourHandler({
         initialQuantity: 1,
         maxQuantity: detailTour.bookQuantity,
     });
-    const formatDateTime = (dateTimeString) => {
-        const date = new Date(dateTimeString);
-        const options = {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-            hour12: false,
-        };
-        return new Intl.DateTimeFormat('vi-VN', options).format(date).replace(/\./g, '/');
-    };
-
     const VND = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND',
@@ -57,17 +45,14 @@ function DetailBook() {
         fetchBookInfo();
     }, []);
     const handleAddToCart = async () => {
-        // console.log(quantity);
-        // const totalPrice = totalPriceRef.current.innerText;
-        // console.log('Total Price: ', totalPrice);
-        // console.log(detailTour.bookPrice);
+        console.log(quantity);
+
         const addToCartData = {
             bookId: detailTour.bookId,
-            // bookPrice: detailTour.bookPrice,
-            cartQuantity: quantity,
+            quantity: parseInt(quantity),
         };
         console.log(addToCartData);
-        if (!localStorage.getItem(token)) {
+        if (!isAuthenticated) {
             alert('login before buy item');
             navigate('/authenticate');
         } else {

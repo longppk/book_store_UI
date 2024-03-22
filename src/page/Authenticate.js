@@ -8,34 +8,39 @@ const AuthenticateStyles = styled.div`
     height: 580px;
     margin: auto;
     padding-top: 50px;
-    .container-title{
+    .container-title {
         display: flex;
         width: 400px;
         margin: auto;
         justify-content: space-around;
         cursor: pointer;
-        .active{
+        .active {
             color: red;
             border-bottom: 2px solid red;
         }
-        h3{
+        h3 {
             padding: 0 15px;
         }
     }
-`
+`;
 const Authenticate = () => {
-    const [show, setShow] = useState(true)
+    const [show, setShow] = useState(true);
+
     const handleSignIn = () => {
-        setShow(true)
-    }
+        setShow(true);
+    };
     const handleSignUp = () => {
-        setShow(false)
-    }
+        setShow(false);
+    };
     return (
         <AuthenticateStyles>
-            <div className='container-title'>
-                <h3 className={show ? 'active' : ''} onClick={handleSignIn}>Sign In</h3>
-                <h3 className={!show ? 'active' : ''} onClick={handleSignUp}>Sign Up</h3>
+            <div className="container-title">
+                <h3 className={show ? 'active' : ''} onClick={handleSignIn}>
+                    Sign In
+                </h3>
+                <h3 className={!show ? 'active' : ''} onClick={handleSignUp}>
+                    Sign Up
+                </h3>
             </div>
             <div>
                 {show && <SignIn></SignIn>}

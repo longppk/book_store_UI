@@ -1,8 +1,14 @@
 import React from 'react';
 import { FaChevronDown } from 'react-icons/fa6';
 import { CiMail, CiBellOn, CiSearch } from 'react-icons/ci';
+import { Link } from 'react-router-dom';
 
 function Header() {
+    let username = localStorage.getItem('user');
+    const role = localStorage.getItem('role');
+    if (username === null || role === null || role !== 'ADMIN') {
+        username = '';
+    }
     return (
         <header className="fixed top-0 w-10/12 px-6 bg-white h-16 flex place-content-between z-50">
             <div className="flex-initial w-1/2 flex items-center">
@@ -29,34 +35,36 @@ function Header() {
                         src="https://down-vn.img.susercontent.com/file/vn-11134233-7r98o-lnjefuceb33uc2_tn"
                         alt="avatar"
                     />
-                    <div className="relative py-1 ml-2 w-36 group">
+                    <div className="relative py-1 ml-2 w-60 group">
                         <div className="flex justify-center items-center cursor-pointer">
-                            <span>pitithuong</span>
+                            {username !== '' ? <span>{username}</span> : <Link to="/admin/signIn">SignIn</Link>}
                             <FaChevronDown className="ml-5 text-gray-400" />
                         </div>
-                        <div className="absolute hidden top-8 right-px z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 group-hover:block">
-                            <ul
-                                className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                aria-labelledby="dropdownMenuIconHorizontalButton"
-                            >
-                                <li>
-                                    <button className="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        Profile
-                                    </button>
-                                </li>
-                                <li>
-                                    <button className="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        Upgrade
-                                    </button>
-                                </li>
+                        {username !== '' && (
+                            <div className="absolute hidden top-8 right-px z-10 w-60 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 group-hover:block">
+                                <ul
+                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
+                                    aria-labelledby="dropdownMenuIconHorizontalButton"
+                                >
+                                    <li>
+                                        <button className="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            Profile
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button className="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            Upgrade
+                                        </button>
+                                    </li>
 
-                                <li>
-                                    <button className="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                                        Logout
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
+                                    <li>
+                                        <button className="block w-full text-left py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                            Logout
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="flex items-center w-36 place-content-evenly text-purple-500">

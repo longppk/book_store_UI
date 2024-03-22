@@ -18,6 +18,7 @@ function AddVoucher() {
         endDateErrorMessage: '',
         quantity: '',
         quantityValid: true,
+        loyalProgram: false,
     }));
 
     const handleAddVoucherInputChange = (e, isValid) => {
@@ -25,6 +26,14 @@ function AddVoucher() {
             setVoucherInfo((prev) => ({
                 ...prev,
                 [e.target.name]: e.target.value,
+            }));
+            return;
+        }
+
+        if (e.target.name === 'loyalProgram') {
+            setVoucherInfo((prev) => ({
+                ...prev,
+                [e.target.name]: !prev.loyalProgram,
             }));
             return;
         }
@@ -59,6 +68,7 @@ function AddVoucher() {
                 voucherInfo.highestRate,
                 voucherInfo.quantity,
                 voucherInfo.endDate,
+                voucherInfo.loyalProgram,
             );
             if (res && res.state === 'success') {
                 notify(res.message);
@@ -89,6 +99,8 @@ function AddVoucher() {
             submitForm();
         }
     };
+
+    console.log(voucherInfo);
 
     return (
         <>
@@ -121,12 +133,12 @@ function AddVoucher() {
                         label="Highest Rate"
                         name="highestRate"
                         type="text"
-                        placeholder="From 10000 to 999999..."
+                        placeholder="From 10000 to 99999..."
                         value={voucherInfo.highestRate}
                         validation={{
-                            patternRegex: /^(1\d{4}|[2-9]\d{4})$/,
+                            patternRegex: /\b(?:[1-9]\d{4,6}|10000000)\b/,
                             errorMessage: 'This number is not valid!',
-                            maxLength: 6,
+                            maxLength: 7,
                         }}
                         onValueChange={handleAddVoucherInputChange}
                     />
@@ -157,6 +169,22 @@ function AddVoucher() {
                         }}
                         onValueChange={handleAddVoucherInputChange}
                     />
+
+                    <div className="flex items-center mb-5">
+                        <input
+                            name="loyalProgram"
+                            type="checkbox"
+                            checked={voucherInfo.loyalProgram}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            onChange={handleAddVoucherInputChange}
+                        />
+                        <label
+                            htmlFor="checked-checkbox"
+                            className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                        >
+                            Send this voucher to loyal customer.
+                        </label>
+                    </div>
 
                     <button
                         type="submit"

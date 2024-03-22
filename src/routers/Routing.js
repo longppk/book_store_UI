@@ -10,6 +10,7 @@ import ListBook from '../books/ListBook';
 import DetailBook from '../books/DetailBook';
 import Cart from '../page/User/Cart';
 import SignIn from '../form/SignIn';
+import Payment from '../page/User/Payment';
 
 function Routing() {
     const { isAuthenticated } = useSelector(selectUser);
@@ -31,6 +32,7 @@ function Routing() {
             /> */}
             <Route path="/list" element={<ListBook />} />
             <Route path="/detail/:bookId" element={<DetailBook />} />
+            <Route path="/payment" element={<Payment />} />
             <Route
                 path="/user/cart"
                 element={isAuthenticated ? <Cart /> : <Navigate to={'/authenticate'} replace={true} />}

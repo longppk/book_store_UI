@@ -130,7 +130,14 @@ const SignIn = () => {
             const userFromserver = decodeToken.sub;
             console.log(userFromserver);
             dispath(loginSuccess(userFromserver));
-
+            localStorage.setItem('role', decodeToken.role);
+            if (decodeToken.role === 'ADMIN') {
+                navigate('/admin/dashboard');
+                toast.success('Login success', {
+                    theme: 'colored',
+                });
+                return;
+            }
             navigate('/');
             toast.success('Login success', {
                 theme: 'colored',

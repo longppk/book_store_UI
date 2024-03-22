@@ -1,3 +1,5 @@
+import SignIn from './form/SignIn';
+import AdminSignUp from './page/Admin/AdminSignUp';
 import AddNewAuthor from './page/Admin/Table/Author/AddNewAuthor';
 import AuthorTable from './page/Admin/Table/Author/AuthorTable';
 import EditAuthor from './page/Admin/Table/Author/EditAuthor';
@@ -98,6 +100,16 @@ export const adminRoutes = [
                 name: 'update_status',
                 path: '/order/edit/:orderId',
                 element: <UpdateOrderStatus />,
+            },
+            {
+                name: 'signIn',
+                path: '/signIn',
+                element: <SignIn />,
+            },
+            {
+                name: 'signUp',
+                path: '/signUp',
+                element: <AdminSignUp />,
             },
         ],
     },

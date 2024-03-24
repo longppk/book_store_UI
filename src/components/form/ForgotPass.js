@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import useHandleChange from "../hooks/useHandleChange";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { NavLink, useNavigate } from "react-router-dom";
+import useHandleChange from "../../hooks/useHandleChange";
 const ForgotPassStyles = styled.div`
   position: relative;
   margin: 0 auto;

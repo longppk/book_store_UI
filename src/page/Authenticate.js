@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SignIn from '../form/SignIn';
-import SignUp from '../form/SignUp';
+import SignIn from '../components/form/SignIn';
+import SignUp from '../components/form/SignUp';
 const AuthenticateStyles = styled.div`
     background-color: #fff;
     width: 100%;

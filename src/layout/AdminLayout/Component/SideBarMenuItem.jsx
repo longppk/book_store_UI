@@ -1,15 +1,23 @@
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 import { useState } from 'react';
 import classNames from 'classnames';
 
 function SideBarMenuItem({ title, icon, value, separate, dropdownMenu, active, onClick, ...passProps }) {
     const [isnDropdownMenuOpen, setIsDropdownMenuOpen] = useState(false);
-
+    const navigate = useNavigate();
     const handleMenuClick = (e) => {
         e.preventDefault();
         setIsDropdownMenuOpen((prev) => !prev);
+    };
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.setItem('token', '');
+        localStorage.setItem('user', '');
+        localStorage.setItem('isAuthenticated', false);
+        navigate('/admin/signIn?tab=signIn');
     };
 
     const props = {
@@ -19,8 +27,17 @@ function SideBarMenuItem({ title, icon, value, separate, dropdownMenu, active, o
 
     let MyLi = NavLink;
     props.to = '/admin/' + value;
+    if (value === 'signIn') {
+        props.to = '/admin/' + value + '?tab=signIn';
+    }
+    if (value === 'signUp') {
+        props.to = '/admin/' + value + '?tab=signUp';
+    }
     if (dropdownMenu?.length !== 0) {
         props.onClick = handleMenuClick;
+    }
+    if (value === 'logout') {
+        props.onClick = handleLogout;
     }
 
     return (

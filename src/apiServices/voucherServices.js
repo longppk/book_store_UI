@@ -22,16 +22,13 @@ export const getVoucherInfo = async (voucherId) => {
     }
 };
 
-export const addNewVoucher = async (code, percent, highestRate, quantity, endDate) => {
+export const addNewVoucher = async (code, percent, highestRate, quantity, endDate, loyalProgram) => {
     try {
         const res = await voucherRequest.post(
             '',
             {
-                code,
-                percent,
-                highestRate,
-                quantity,
-                endDate,
+                voucher: { code, percent, highestRate, quantity, endDate },
+                loyalProgram,
             },
             {},
         );

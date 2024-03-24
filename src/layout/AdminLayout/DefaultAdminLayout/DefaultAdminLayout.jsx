@@ -3,6 +3,9 @@ import Header from '../Component/Header';
 import Sidebar from '../Component/Sidebar';
 import { adminRoutes } from '../../../routes';
 import { Route, Routes } from 'react-router-dom';
+import PrivateAdminRoute from '../../../components/PrivateAdminRoute';
+import SignIn from '../../../form/SignIn';
+import AdminSignUp from '../../../page/Admin/AdminSignUp';
 // import Sidebar from '../Component/Sidebar';
 
 function DefaultAdminLayout() {
@@ -19,8 +22,16 @@ function DefaultAdminLayout() {
                         {adminRoutes.map(
                             ({ layout, pages }) =>
                                 layout === 'dashboard' &&
-                                pages.map(({ path, element }) => <Route exact path={path} element={element} />),
+                                pages.map(({ path, element }) => (
+                                    <Route
+                                        exact
+                                        path={path}
+                                        element={<PrivateAdminRoute>{element}</PrivateAdminRoute>}
+                                    />
+                                )),
                         )}
+                        <Route exact path="/signIn" element={<SignIn />} />
+                        <Route exact path="/signUp" element={<AdminSignUp />} />
                     </Routes>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import {
   IoNotificationsOutline,
@@ -7,6 +7,10 @@ import {
 } from "react-icons/io5";
 import { MdAccountCircle } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import DropDown from "../components/dropdown/DropDown";
+import axios from "axios";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const HeaderStyles = styled.div`
   top: 0;
@@ -58,6 +62,16 @@ const HeaderStyles = styled.div`
       justify-content: center;
       gap: 30px;
       .menu-item {
+        position: relative;
+        .dropdown {
+          display: none;
+        }
+        &:hover .dropdown {
+          transition: all.5;
+          position: absolute;
+          right: 0;
+          display: block;
+        }
         .menu-icon {
           display: flex;
           flex-direction: column;
@@ -73,74 +87,101 @@ const HeaderStyles = styled.div`
 `;
 
 const Header = () => {
+  const [data, setData] = useState();
+  const token = localStorage.getItem("token");
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/user/profile",
+          config
+        );
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        return;
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const login = window.localStorage.getItem("isLoggedIn");
   return (
     <HeaderStyles>
-      <div>
-        <div className="header-main">
-          <NavLink to={"/"} className="logo">
-            <span>
-              <svg
-                id="logo-35"
-                width="50"
-                height="39"
-                viewBox="0 0 50 39"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
-                  className="ccompli1"
-                  fill="#007AFF"
-                ></path>
-                <path
-                  d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
-                  className="ccustom"
-                  fill="#312ECB"
-                ></path>
-              </svg>
-            </span>
-            <span className="logo-name">Book.com</span>
-          </NavLink>
-          <div className="search">
-            <input
-              type="text"
-              className="search-input"
-              placeholder="search book"
-            />
-            <button className="search-icon">
-              <IoSearchOutline />
-            </button>
+      {data && (
+        <div>
+          <div className="header-main">
+            <NavLink to={"/"} className="logo">
+              <span>
+                <svg
+                  id="logo-35"
+                  width="50"
+                  height="39"
+                  viewBox="0 0 50 39"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16.4992 2H37.5808L22.0816 24.9729H1L16.4992 2Z"
+                    className="ccompli1"
+                    fill="#007AFF"
+                  ></path>
+                  <path
+                    d="M17.4224 27.102L11.4192 36H33.5008L49 13.0271H32.7024L23.2064 27.102H17.4224Z"
+                    className="ccustom"
+                    fill="#312ECB"
+                  ></path>
+                </svg>
+              </span>
+              <span className="logo-name">Book.com</span>
+            </NavLink>
+            <div className="search">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="search book"
+              />
+              <button className="search-icon">
+                <IoSearchOutline />
+              </button>
+            </div>
+            <ul className="menu">
+              <li className="menu-item">
+                <NavLink to={"/notification"} className="menu-links">
+                  <div className="menu-icon">
+                    <IoNotificationsOutline className="icon-item" />
+                    <span>Notification</span>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="menu-item">
+                <NavLink to={"/cart"} className="menu-links">
+                  <div className="menu-icon">
+                    <IoCartOutline className="icon-item" />
+                    <span>Cart</span>
+                  </div>
+                </NavLink>
+              </li>
+              <li className="menu-item">
+                <button to={"/profile"} className="menu-links">
+                  <div className="menu-icon">
+                    <MdAccountCircle className="icon-item" />
+                    {data && <span>{data.username}</span>}
+                  </div>
+                </button>
+                <DropDown className="dropdown" />
+              </li>
+            </ul>
           </div>
-          <ul className="menu">
-            <li className="menu-item">
-              <NavLink to={"/notification"} className="menu-links">
-                <div className="menu-icon">
-                  <IoNotificationsOutline className="icon-item" />
-                  <span>Notification</span>
-                </div>
-              </NavLink>
-            </li>
-            <li className="menu-item">
-              <NavLink to={"/cart"} className="menu-links">
-                <div className="menu-icon">
-                  <IoCartOutline className="icon-item" />
-                  <span>Cart</span>
-                </div>
-              </NavLink>
-            </li>
-            <li className="menu-item">
-              <NavLink to={"/profile"} className="menu-links">
-                <div className="menu-icon">
-                  <MdAccountCircle className="icon-item" />
-                  <span>Account</span>
-                </div>
-              </NavLink>
-            </li>
-          </ul>
         </div>
-      </div>
+      )}
     </HeaderStyles>
   );
 };
-
 export default Header;

@@ -109,15 +109,6 @@ function AdminSignUp() {
         }));
     };
 
-    const handleSubmit = () => {
-        if (!isOtpSent) {
-            submitFormSendMail();
-            setIsOtpSent(true);
-        } else {
-            submitFormOtpCode();
-        }
-    };
-
     const submitFormSendMail = () => {
         let formValid = true;
         fields.forEach((field) => {
@@ -138,7 +129,15 @@ function AdminSignUp() {
 
         const sendMail = async () => {
             const res = await userServices.mailRequestAdmin(signUpInfo.email);
-            console.log(res);
+            if (res) {
+                if (res.state === 'success') {
+                    setIsOtpSent(true);
+                } else {
+                    notify(res.message, 'error');
+                }
+            } else {
+                notify('Something went wrong!', 'error');
+            }
         };
 
         if (formValid) {
@@ -166,6 +165,14 @@ function AdminSignUp() {
         if (formValid) {
             const code = otpCode.one + otpCode.two + otpCode.three + otpCode.four + otpCode.five + otpCode.six;
             registerNewAdminAccount(code);
+        }
+    };
+
+    const handleSubmit = () => {
+        if (!isOtpSent) {
+            submitFormSendMail();
+        } else {
+            submitFormOtpCode();
         }
     };
 

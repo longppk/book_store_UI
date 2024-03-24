@@ -81,9 +81,9 @@ const HeaderStyles = styled.div`
             font-size: 24px;
           }
         }
-      }
     }
   }
+}
 `;
 
 const Header = () => {

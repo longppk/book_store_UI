@@ -20,6 +20,10 @@ const BookCardStyles = styled.section`
             margin: 5px 0;
             cursor: pointer;
             color: #333333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
         }
         .book-price {
             color: #c92127;
@@ -70,7 +74,7 @@ const arrComment = [
         description: 'abbcsjcsđsk',
     },
 ];
-const BookCard = () => {
+const BookCard = ({ book, onDetail }) => {
     const calculateAverageRating = (comments) => {
         if (comments.length === 0) return 0;
 
@@ -85,14 +89,11 @@ const BookCard = () => {
 
     return (
         <BookCardStyles className="book-card">
-            <img
-                className="book-img"
-                src="https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_46272.jpg"
-                alt="book"
-            />
+            <img className="book-img" src={book.bookImage[0]} alt="book" />
             <div className="book-content">
-                <h1 className="book-title">Kỹ Năng Sinh Tồn</h1>
-                <span className="book-price">75.000 đ</span>
+                <h1 className="book-title">{book.bookName}</h1>
+                <button onClick={() => onDetail(book.bookId)}>Xem thêm</button>
+                <span className="book-price">{book.bookPrice}</span>
                 <div className="book-rating">
                     {[...Array(Math.ceil(averageRating))].map((o, i) => (
                         <span key={i}>

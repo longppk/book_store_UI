@@ -22,6 +22,7 @@ function Routing() {
             <Route path="/authenticate" exact element={<SignIn />} />
             <Route path="/forgotPass" element={<ForgotPass />}></Route>
             <Route path="/admin/*" element={<DefaultAdminLayout />} />
+            
             <Route
                 path="/profile"
                 element={isAuthenticated ? <Profile /> : <Navigate to={'/authenticate'} replace={true} />}

@@ -114,7 +114,6 @@ const Header = () => {
   const login = window.localStorage.getItem("isLoggedIn");
   return (
     <HeaderStyles>
-      {data && (
         <div>
           <div className="header-main">
             <NavLink to={"/"} className="logo">
@@ -180,7 +179,6 @@ const Header = () => {
             </ul>
           </div>
         </div>
-      )}
     </HeaderStyles>
   );
 };

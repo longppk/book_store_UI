@@ -339,7 +339,7 @@ function ForgotPass() {
             <p className="form-message">{errorMessage.confirmPass}</p>
           </div>
           <button onClick={handleChangePass} className="btn-submit">
-            Chang Password
+            Change Password
           </button>
         </div>
       )}

@@ -160,7 +160,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <li className="menu-item">
-                <NavLink to={"/cart"} className="menu-links">
+                <NavLink to={"/user/cart"} className="menu-links">
                   <div className="menu-icon">
                     <IoCartOutline className="icon-item" />
                     <span>Cart</span>

@@ -62,8 +62,8 @@ function DetailBook() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log(response.data);
-                toast.success(response.data);
+                // console.log(response.data);
+                alert(response.data);
             } catch (e) {
                 console.log(e);
             }

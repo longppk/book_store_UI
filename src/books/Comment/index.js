@@ -29,7 +29,7 @@ function Comment({ bookId }) {
         };
         return new Intl.DateTimeFormat('vi-VN', options).format(date).replace(/\./g, '/');
     };
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(1);
     const [commentValue, setCommentValue] = useState('');
     const [comment, setComment] = useState([]);
     const [editingCommentIndex, setEditingCommentIndex] = useState(-1);
@@ -129,7 +129,7 @@ function Comment({ bookId }) {
                 });
                 // alert(res.data);
                 setCFullNameUser(res.data);
-                console.log(cFullNameUser);
+                // console.log(res.data);
             } catch (error) {
                 console.log(error);
             }
@@ -172,13 +172,9 @@ function Comment({ bookId }) {
             {isAuthenticated && (
                 <div className={styles.commentCard} style={{ backgroundColor: '#f8f9fa' }}>
                     <div className={styles.addCommentHeader}>
-                        <img
-                            className={styles.imageUser}
-                            src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
-                            alt="avatar"
-                        />
+                        <img className={styles.imageUser} src={cFullNameUser.avatarUrl} alt="avatar" />
                         <div className={styles.addCommentInfo}>
-                            <h6 className="fw-bold text-primary mb-1">{cFullNameUser}</h6>
+                            <h6 className="fw-bold text-primary mb-1">{cFullNameUser.fullName}</h6>
                             {[1, 2, 3, 4, 5].map((star) => (
                                 <span
                                     className={styles.rating}
@@ -218,7 +214,7 @@ function Comment({ bookId }) {
                                 <div className={styles.userInfocomment}>
                                     <img
                                         className={styles.imageUser}
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp"
+                                        src={item.avatarUser}
                                         alt="avatar"
                                         width="30"
                                         height="30"

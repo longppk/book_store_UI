@@ -37,7 +37,7 @@ const BookCategory = () => {
             try {
                 const resp = await axios.get('http://localhost:8080/api/user/book/pagination', {
                     params: {
-                        size: 10,
+                        size: 30,
                     },
                 });
                 console.log(resp.data);

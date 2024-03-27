@@ -85,7 +85,10 @@
             }
             .checkVoucher {
                 display: flex;
-                width: 25%;
+                width: 50%;
+                label {
+                    padding-right: 20px;
+                }
                 input {
                     width: 150px;
                     margin-right: 5px;
@@ -114,15 +117,15 @@
                     background-color: #7ee1f3;
                 }
             }
-            .paymentMethod {
-                width: 20%;
-                select {
-                    outline: none;
-                    border-radius: 5px;
-                }
-                .optionPayment {
-                }
-            }
+            // .paymentMethod {
+            //     width: 20%;
+            //     select {
+            //         outline: none;
+            //         border-radius: 5px;
+            //     }
+            //     .optionPayment {
+            //     }
+            // }
         }
 
         .CartItem {

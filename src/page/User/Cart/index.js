@@ -1,7 +1,6 @@
 import styles from './Cart.module.scss';
 import CartItem from './CartItem';
 import { ToastContainer, toast } from 'react-toastify';
-import CartHandler from './CartHandler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import Header from '../../../layout/Header';
@@ -199,8 +198,8 @@ function Cart() {
                 console.log(param);
                 const url = res.data.data;
                 localStorage.setItem('listCartItems', checkedCartIds);
-                window.open(url, '_blank');
                 window.close();
+                window.open(url, '_blank');
             }
             // console.log(urlPayment);
 
@@ -216,12 +215,27 @@ function Cart() {
         try {
             const res = await axios.get(`http://localhost:8080/api/user/voucher/${voucherValue}`);
             setConfirmVoucher(res.data);
-            console.log(confirmVoucher);
+            console.log('confirmVoucher', res.data);
+            if (res.data.resCode === '200') {
+                alert(res.data.message);
+            }
         } catch (error) {
             console.log(error);
         }
         console.log(voucherValue);
     };
+    const [priceDiscount, setPriceDiscount] = useState(0);
+    useEffect(() => {
+        const totalPriceBeforeDiscount = () => {
+            if (confirmVoucher != null) {
+                const discount = confirmVoucher.percent;
+                setPriceDiscount(totalPrice - totalPrice * (discount / 100));
+            } else {
+                setPriceDiscount(totalPrice);
+            }
+        };
+        totalPriceBeforeDiscount();
+    }, [confirmVoucher, totalPrice]);
     return (
         <>
             <Header />
@@ -238,20 +252,11 @@ function Cart() {
                             ({cartItems.filter((item) => item.checked).length} items checked )
                         </div>
                         <div className={`${styles.paymentGroup} ${styles.totalPrice}`}>
-                            Total Price: {VND.format(totalPrice)}
-                        </div>
-                        <div className={`${styles.paymentGroup} ${styles.paymentMethod}`}>
-                            <select onChange={(e) => handleChangeMethodPayment(e.target.value)}>
-                                <option value="" className={styles.optionPayment}>
-                                    Select a Payment Method
-                                </option>
-                                <option value="a">VNPAY</option>
-                                <option value="b">PAYPAL</option>
-                                <option value="c">ZALO PAY</option>
-                                <option value="d">MOMO</option>
-                            </select>
+                            Total Price:{VND.format(priceDiscount)}
                         </div>
                         <div className={`${styles.paymentGroup} ${styles.checkVoucher}`}>
+                            <label>Enter Voucher: </label>
+
                             <input value={voucherValue} onChange={(e) => setVoucherValue(e.target.value)} />
                             <button className={styles.btnCheckOut} onClick={handleCheckVoucher}>
                                 Confirm

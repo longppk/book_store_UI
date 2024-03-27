@@ -3,16 +3,15 @@ import { Route, Routes, Link, Navigate } from 'react-router-dom';
 import { selectUser } from '../store/userSlice';
 import HomePage from '../page/HomePage';
 import Profile from '../page/Profile';
-import ForgotPass from '../form/ForgotPass';
 import NotFoundPage from '../page/404Page';
 import DefaultAdminLayout from '../layout/AdminLayout/DefaultAdminLayout/DefaultAdminLayout';
 import ListBook from '../books/ListBook';
 import DetailBook from '../books/DetailBook';
 import Cart from '../page/User/Cart';
-import SignIn from '../form/SignIn';
 import Payment from '../page/User/Payment';
 import Authenticate from '../page/Authenticate';
 import OrderHistory from '../module/profile/OrderHistory';
+import ForgotPass from '../components/form/ForgotPass';
 
 function Routing() {
     const { isAuthenticated } = useSelector(selectUser);

@@ -1,7 +1,6 @@
 import { FaRegChartBar, FaUserFriends } from 'react-icons/fa';
 import { BsTable } from 'react-icons/bs';
 import { TbLogin2 } from 'react-icons/tb';
-import { SlNote } from 'react-icons/sl';
 import { IoExitOutline } from 'react-icons/io5';
 import { RiShoppingCartLine } from 'react-icons/ri';
 export const SidebarAdminMenuData = [
@@ -51,12 +50,6 @@ export const SidebarAdminMenuData = [
         title: 'SignIn',
         value: 'signIn',
         icon: <TbLogin2 />,
-        dropdownMenu: [],
-    },
-    {
-        title: 'SignUp',
-        value: 'signUp',
-        icon: <SlNote />,
         dropdownMenu: [],
     },
     {

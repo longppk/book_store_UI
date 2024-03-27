@@ -4,8 +4,7 @@ import Sidebar from '../Component/Sidebar';
 import { adminRoutes } from '../../../routes';
 import { Route, Routes } from 'react-router-dom';
 import PrivateAdminRoute from '../../../components/PrivateAdminRoute';
-import SignIn from '../../../form/SignIn';
-import AdminSignUp from '../../../page/Admin/AdminSignUp';
+import SignIn from '../../../components/form/SignIn';
 // import Sidebar from '../Component/Sidebar';
 
 function DefaultAdminLayout() {
@@ -31,7 +30,7 @@ function DefaultAdminLayout() {
                                 )),
                         )}
                         <Route exact path="/signIn" element={<SignIn />} />
-                        <Route exact path="/signUp" element={<AdminSignUp />} />
+                        {/* <Route exact path="/signUp" element={<AdminSignUp />} /> */}
                     </Routes>
                 </div>
             </div>

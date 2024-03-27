@@ -34,6 +34,7 @@ const SignInStyles = styled.div`
         width: 100%;
         border: 1px solid #ced4da;
         padding: 8px 10px;
+        outline: none;
       }
       .form-message {
         color: #cf3c3f;

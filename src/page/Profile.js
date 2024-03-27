@@ -210,19 +210,19 @@ const Profile = () => {
             )}
 
             <div className="profile-navigate">
-              <NavLink className="link-navigate" to={"/"}>
+              <NavLink className="link-navigate" to={"/profile"}>
                 Thông tin tài khoản
               </NavLink>
               <NavLink className="link-navigate" to={"/orderHistory"}>
                 Lịch sử đơn hàng
               </NavLink>
-              <NavLink className="link-navigate" to={"/"}>
+              <NavLink className="link-navigate" to={"/profile"}>
                 Điểm tích lũy
               </NavLink>
-              <NavLink className="link-navigate" to={"/"}>
+              <NavLink className="link-navigate" to={"/profile"}>
                 Ví voucher
               </NavLink>
-              <NavLink className="link-navigate" to={"/"}>
+              <NavLink className="link-navigate" to={"/profile"}>
                 Thông báo
               </NavLink>
             </div>

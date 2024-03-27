@@ -152,7 +152,7 @@ const Header = () => {
             </div>
             <ul className="menu">
               <li className="menu-item">
-                <NavLink to={"/notification"} className="menu-links">
+                <NavLink to={"/"} className="menu-links">
                   <div className="menu-icon">
                     <IoNotificationsOutline className="icon-item" />
                     <span>Notification</span>

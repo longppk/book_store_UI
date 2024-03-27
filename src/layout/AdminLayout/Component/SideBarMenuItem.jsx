@@ -14,9 +14,10 @@ function SideBarMenuItem({ title, icon, value, separate, dropdownMenu, active, o
 
     const handleLogout = (e) => {
         e.preventDefault();
-        localStorage.setItem('token', '');
-        localStorage.setItem('user', '');
-        localStorage.setItem('isAuthenticated', false);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('isAuthenticated');
+        localStorage.removeItem('role');
         navigate('/admin/signIn?tab=signIn');
     };
 

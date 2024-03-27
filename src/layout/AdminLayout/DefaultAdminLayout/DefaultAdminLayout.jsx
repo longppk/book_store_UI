@@ -31,7 +31,7 @@ function DefaultAdminLayout() {
                                 )),
                         )}
                         <Route exact path="/signIn" element={<SignIn />} />
-                        <Route exact path="/signUp" element={<AdminSignUp />} />
+                        {/* <Route exact path="/signUp" element={<AdminSignUp />} /> */}
                     </Routes>
                 </div>
             </div>

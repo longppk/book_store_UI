@@ -101,16 +101,6 @@ export const adminRoutes = [
                 path: '/order/edit/:orderId',
                 element: <UpdateOrderStatus />,
             },
-            // {
-            //     name: 'signIn',
-            //     path: '/signIn',
-            //     element: <SignIn />,
-            // },
-            // {
-            //     name: 'signUp',
-            //     path: '/signUp',
-            //     element: <AdminSignUp />,
-            // },
         ],
     },
 ];

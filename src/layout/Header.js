@@ -77,6 +77,14 @@ const HeaderStyles = styled.div`
                     .icon-item {
                         font-size: 24px;
                     }
+                    .menu-avatar{
+                        width: 25px;
+                        height: 25px;
+                        border-radius: 50%;
+                    }
+                    .menu-username{
+                        font-weight: 600;
+                    }
                 }
             }
         }
@@ -168,15 +176,23 @@ const Header = () => {
                                 </div>
                             </NavLink>
                         </li>
-                        <li className="menu-item">
+                        {data ?
+                            <li className="menu-item">
                             <button to={'/profile'} className="menu-links">
                                 <div className="menu-icon">
-                                    <MdAccountCircle className="icon-item" />
-                                    {data && <span>{data.username}</span>}
+                                    <img className='menu-avatar' src={data.avatar} alt='avatar'/>
+                                    <span className='menu-username'>{data.username}</span>
                                 </div>
                             </button>
                             <DropDown className="dropdown" />
-                        </li>
+                        </li> : <li className="menu-item">
+                            <button to={'/profile'} className="menu-links">
+                                <div className="menu-icon">
+                                    <MdAccountCircle className='icon-item'/>
+                                </div>
+                            </button>
+                            <DropDown className="dropdown" />
+                        </li>}
                     </ul>
                 </div>
             </div>

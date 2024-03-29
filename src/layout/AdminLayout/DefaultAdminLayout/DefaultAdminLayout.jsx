@@ -4,6 +4,7 @@ import Sidebar from '../Component/Sidebar';
 import { adminRoutes } from '../../../routes';
 import { Route, Routes } from 'react-router-dom';
 import PrivateAdminRoute from '../../../components/PrivateAdminRoute';
+import AdminSignUp from '../../../page/Admin/AdminSignUp';
 import SignIn from '../../../components/form/SignIn';
 // import Sidebar from '../Component/Sidebar';
 

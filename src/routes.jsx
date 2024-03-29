@@ -1,3 +1,5 @@
+
+import AdminSignUp from './page/Admin/AdminSignUp';
 import AddNewAuthor from './page/Admin/Table/Author/AddNewAuthor';
 import AuthorTable from './page/Admin/Table/Author/AuthorTable';
 import EditAuthor from './page/Admin/Table/Author/EditAuthor';

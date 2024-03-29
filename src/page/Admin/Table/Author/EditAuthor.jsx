@@ -82,7 +82,7 @@ function EditAuthor() {
                         type="text"
                         placeholder="Author name..."
                         value={authorInfo.name}
-                        validation={{ patternRegex: '', errorMessage: '', maxLength: 30 }}
+                        validation={{ patternRegex: '', errorMessage: '', maxLength: 100 }}
                         onValueChange={handleAddVoucherInputChange}
                     />
                     <MyCustomInput
@@ -91,7 +91,7 @@ function EditAuthor() {
                         type="text"
                         placeholder="Author's alias..."
                         value={authorInfo.alias}
-                        validation={{ patternRegex: '', errorMessage: '', maxLength: 30 }}
+                        validation={{ patternRegex: '', errorMessage: '', maxLength: 450 }}
                         onValueChange={handleAddVoucherInputChange}
                     />
 

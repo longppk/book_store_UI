@@ -138,7 +138,7 @@ function AddVoucher() {
                         validation={{
                             patternRegex: /\b(?:[1-9]\d{4,6}|10000000)\b/,
                             errorMessage: 'This number is not valid!',
-                            maxLength: 7,
+                            maxLength: 8,
                         }}
                         onValueChange={handleAddVoucherInputChange}
                     />

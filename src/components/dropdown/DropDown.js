@@ -40,7 +40,7 @@ const DropDownStyles = styled.div`
         }
     }
 `;
-const DropDown = ({ className }) => {
+const DropDown = ({ className, data }) => {
     const navigate = useNavigate();
     const logged = window.localStorage.getItem('isLogged');
     const handleLogout = () => {
@@ -52,7 +52,7 @@ const DropDown = ({ className }) => {
     return (
         <DropDownStyles className={className}>
             <div className="container-dropdown">
-                {logged ? (
+                {data ? (
                     <div className="btn-box">
                         <NavLink className="btn-signup" to={'/profile'}>
                             Profile

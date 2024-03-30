@@ -69,7 +69,7 @@ function AddGenre() {
                         type="text"
                         placeholder="Genre name..."
                         value={genreInfo.name}
-                        validation={{ patternRegex: '', errorMessage: '', maxLength: 30 }}
+                        validation={{ patternRegex: '', errorMessage: '', maxLength: 100 }}
                         onValueChange={handleAddVoucherInputChange}
                     />
 

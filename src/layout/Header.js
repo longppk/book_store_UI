@@ -101,6 +101,11 @@ const Header = () => {
     };
     useEffect(() => {
         const fetchData = async () => {
+            if (!token || token === 'null') {
+                console.error('Token không tồn tại');
+                // Có thể thêm mã để xử lý trường hợp này, ví dụ: setState cho một thông báo lỗi, chuyển hướng, v.v.
+                return; // Dừng thực hiện useEffect tại đây nếu không có token
+            }
             try {
                 const response = await axios.get('http://localhost:8080/api/user/profile', config);
                 setData(response.data);
@@ -184,7 +189,7 @@ const Header = () => {
                                     <span className='menu-username'>{data.username}</span>
                                 </div>
                             </button>
-                            <DropDown className="dropdown" />
+                            <DropDown data={data} className="dropdown" />
                         </li> : <li className="menu-item">
                             <button to={'/profile'} className="menu-links">
                                 <div className="menu-icon">

@@ -94,12 +94,11 @@ function Payment() {
         setResPayment(res.data);
         console.log(res.data);
         if (res.data.resCode === '200') {
-            const voucherId = localStorage.getItem('voucherId') || {};
+            const voucherId = localStorage.getItem('voucherId') || null;
             const listCartItems = listCartItemsString.split(',').map(Number);
             const orderRequest = {
                 cartItemIds: listCartItems,
                 code: res.data.bankCode,
-                // bankTranNo: res.data.bankTranNo,
                 voucherId: voucherId,
                 paymentDay: res.data.payDay,
             };

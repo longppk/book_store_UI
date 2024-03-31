@@ -100,7 +100,7 @@ function Users() {
                 </h1>
                 {listUsers ? (
                     <NormalTable
-                        name="book"
+                        name="users"
                         deleteBtn={false}
                         addBtn={false}
                         actionCol={false}

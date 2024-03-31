@@ -311,7 +311,7 @@ function AddNewBook() {
                     />
                     <div className="mb-5 grid grid-cols-4 gap-x-4">
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                                 Select language
                             </label>
                             <select
@@ -330,7 +330,7 @@ function AddNewBook() {
                             </select>
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                                 Publish Date
                             </label>
                             <input
@@ -346,7 +346,7 @@ function AddNewBook() {
                             </div>
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                                 Price
                             </label>
                             <input
@@ -363,7 +363,7 @@ function AddNewBook() {
                             </div>
                         </div>
                         <div>
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">
                                 Quantity
                             </label>
                             <input
@@ -382,7 +382,7 @@ function AddNewBook() {
                     </div>
                     <div className="mb-5">
                         <label
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900"
                             htmlFor="user_avatar"
                         >
                             Upload image files
@@ -418,7 +418,7 @@ function AddNewBook() {
                     </div>
                     <div className="mb-5">
                         <label
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900"
                             htmlFor="user_avatar"
                         >
                             Choose author
@@ -437,7 +437,7 @@ function AddNewBook() {
                     </div>
                     <div className="mb-5">
                         <label
-                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                            className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900"
                             htmlFor="user_avatar"
                         >
                             Choose genre

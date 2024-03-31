@@ -71,7 +71,9 @@ function MyCustomInput({
     };
     return (
         <div className={classNames('mb-5', { className })}>
-            {label && <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{label}</label>}
+            {label && (
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900">{label}</label>
+            )}
 
             {type === 'textarea' ? (
                 <textarea

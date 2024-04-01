@@ -66,7 +66,7 @@ const HeaderStyles = styled.div`
                 &:hover .dropdown {
                     transition: all.5;
                     position: absolute;
-                    right: 0;
+                    right: -10px;
                     display: block;
                 }
                 .menu-icon {
@@ -103,8 +103,7 @@ const Header = () => {
         const fetchData = async () => {
             if (!token || token === 'null') {
                 console.error('Token không tồn tại');
-                // Có thể thêm mã để xử lý trường hợp này, ví dụ: setState cho một thông báo lỗi, chuyển hướng, v.v.
-                return; // Dừng thực hiện useEffect tại đây nếu không có token
+                return;
             }
             try {
                 const response = await axios.get('http://localhost:8080/api/user/profile', config);

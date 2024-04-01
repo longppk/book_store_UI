@@ -152,7 +152,6 @@ const Profile = () => {
         values.fullname = response.data.fullName || values.fullname;
         values.phone = response.data.phone || values.phone;
         values.address = response.data.address || values.address;
-        console.log(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -174,7 +173,6 @@ const Profile = () => {
         formData,
         config
       );
-      console.log(res.data);
       if (res.data === true) {
         toast.success("Update profile successfully", {
           theme: "colored",
@@ -216,8 +214,8 @@ const Profile = () => {
               <NavLink className="link-navigate" to={"/orderHistory"}>
                 Lịch sử đơn hàng
               </NavLink>
-              <NavLink className="link-navigate" to={"/profile"}>
-                Điểm tích lũy
+              <NavLink className="link-navigate" to={"/changePass"}>
+                Đổi mật khẩu
               </NavLink>
               <NavLink className="link-navigate" to={"/profile"}>
                 Ví voucher

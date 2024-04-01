@@ -35,6 +35,9 @@ const SignInStyles = styled.div`
                 border: 1px solid #ced4da;
                 padding: 8px 10px;
                 outline: none;
+                &:focus{
+                    border: 1px solid #2489f4;
+                }
             }
             .form-message {
                 color: #cf3c3f;
@@ -123,13 +126,26 @@ const SignUp = () => {
             errors.confirmPassword = '';
         }
         setErrorMessage(errors);
-        try {
-            const { username, password } = values;
-            const dataSend = { username, password };
-            console.log(dataSend);
-            const res = await axios.post('http://localhost:8080/api/user/signup', dataSend);
-            toast.success('Sign Up success');
-        } catch (err) {}
+        if (!(Object.values(errors).some(error => error !== ''))) {
+            try {
+                const { username, password } = values;
+                const dataToSend = { username, password };
+                const res = await axios.post('http://localhost:8080/api/user/signup', dataToSend);
+                if(res.data === true){
+                    toast.success('Register account successfully', {
+                        theme: 'colored',
+                    });
+                }
+                else{
+                    toast.error('This email is registered', {
+                        theme: 'colored',
+                    });
+                }
+            } catch (err) {
+            }
+        } else {
+            return ;
+        }
     };
     return (
         <SignInStyles>

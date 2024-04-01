@@ -37,6 +37,10 @@ const SignInStyles = styled.div`
                 width: 100%;
                 border: 1px solid #ced4da;
                 padding: 8px 10px;
+                outline: none;
+                &:focus{
+                    border: 1px solid #2489f4;
+                }
             }
             .form-message {
                 color: #cf3c3f;
@@ -111,7 +115,6 @@ const SignIn = () => {
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.username)) {
             errors.username = 'Email is not valid';
         }
-
         if (values.password === '') {
             errors.password = 'Password is required';
         } else {

@@ -12,6 +12,7 @@ import Cart from '../page/User/Cart';
 import Payment from '../page/User/Payment';
 import Authenticate from '../page/Authenticate';
 import OrderHistory from '../module/profile/OrderHistory';
+import ChangePass from '../components/form/ChangePass';
 
 function Routing() {
     const { isAuthenticated } = useSelector(selectUser);
@@ -24,6 +25,7 @@ function Routing() {
             <Route path="/forgotPass" element={<ForgotPass />}></Route>
             <Route path="/admin/*" element={<DefaultAdminLayout />} />
             <Route path="/orderHistory" element={<OrderHistory />}></Route>
+            <Route path='/changePass' element={<ChangePass></ChangePass>}></Route>
             <Route
                 path="/profile"
                 element={isAuthenticated ? <Profile /> : <Navigate to={'/authenticate'} replace={true} />}

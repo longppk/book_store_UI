@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 const HomeBannerStyles = styled.section`
   margin-top: 94px;
-  padding: 20px 0;
+  padding: 0 0 20px 0;
   background-color: #f0f0f0;
   text-align: center;
 

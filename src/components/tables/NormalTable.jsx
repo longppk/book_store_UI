@@ -3,7 +3,7 @@ import { FaPlus } from 'react-icons/fa6';
 import { BiSort } from 'react-icons/bi';
 import { Link, useLocation } from 'react-router-dom';
 import { useCallback, useEffect, useState, Fragment } from 'react';
-import { useDebounce, useNotify } from '../../hooks';
+import { useDebounce } from '../../hooks';
 import classNames from 'classnames';
 import DeleteDialog from './DeleteDialog';
 import { PiCaretUpDown } from 'react-icons/pi';
@@ -36,13 +36,15 @@ function NormalTable({
     onDelete = deF,
     onSelectSize = deF,
 }) {
-    const [paginationInfo, setPaginationInfo] = useState();
-    const notify = useNotify();
+    const [paginationInfo, setPaginationInfo] = useState(pagination);
+    // const notify = useNotify();
     const [searchValue, setSearchValue] = useState('');
     const [listItemChecked, setListItemChecked] = useState([]);
     const [isCheckAll, setIsCheckAll] = useState(false);
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [currentPageClick, setCurrentPageClick] = useState(() => ({ nextPageTotal: 0, prevPageTotal: 0 }));
     const debounce = useDebounce(searchValue, 500);
+    const currentPageChange = useDebounce(currentPageClick, 500);
     const { pathname } = useLocation();
     const handleSearchChange = (e) => {
         setSearchValue(e.target.value);
@@ -55,8 +57,60 @@ function NormalTable({
     }, [debounce]);
 
     useEffect(() => {
-        setPaginationInfo(pagination);
-    }, [pagination]);
+        if (paginationInfo.currentPage + currentPageChange.nextPageTotal <= paginationInfo.totalPage) {
+            onNextPage(paginationInfo.currentPage + currentPageChange.nextPageTotal);
+            setPaginationInfo((prev) => ({
+                ...prev,
+                currentPage: prev.currentPage + currentPageChange.nextPageTotal,
+            }));
+            setCurrentPageClick((prev) => ({
+                ...prev,
+                nextPageTotal: 0,
+            }));
+        } else {
+            onNextPage(paginationInfo.totalPage);
+            setPaginationInfo((prev) => ({
+                ...prev,
+                currentPage: paginationInfo.totalPage,
+            }));
+            setCurrentPageClick((prev) => ({
+                ...prev,
+                nextPageTotal: 0,
+            }));
+            // notify('This is the last page!', 'error');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPageChange.nextPageTotal]);
+
+    useEffect(() => {
+        if (paginationInfo.currentPage - currentPageChange.prevPageTotal > 0) {
+            onPrevPage(paginationInfo.currentPage - currentPageChange.prevPageTotal);
+            setPaginationInfo((prev) => ({
+                ...prev,
+                currentPage: prev.currentPage - currentPageChange.prevPageTotal,
+            }));
+            setCurrentPageClick((prev) => ({
+                ...prev,
+                nextPageTotal: 0,
+            }));
+        } else {
+            onPrevPage(1);
+            setPaginationInfo((prev) => ({
+                ...prev,
+                currentPage: 1,
+            }));
+            setCurrentPageClick((prev) => ({
+                ...prev,
+                nextPageTotal: 0,
+            }));
+            // notify('This is the first page!', 'error');
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentPageChange.prevPageTotal]);
+    // useEffect(() => {
+    //     setPaginationInfo(pagination);
+    //     setCurrentPageClick(pagination.currentPage);
+    // }, [pagination]);
 
     const handleSelectSize = (sizeInfo) => {
         setSelected(sizeInfo);
@@ -69,27 +123,17 @@ function NormalTable({
     };
 
     const handleNextPage = () => {
-        if (paginationInfo.currentPage + 1 <= paginationInfo.totalPage) {
-            onNextPage(paginationInfo.currentPage + 1);
-            setPaginationInfo((prev) => ({
-                ...prev,
-                currentPage: prev.currentPage + 1,
-            }));
-        } else {
-            notify('This is the last page!', 'error');
-        }
+        setCurrentPageClick((prev) => ({
+            ...prev,
+            nextPageTotal: prev.nextPageTotal + 1,
+        }));
     };
 
     const handlePrevPage = () => {
-        if (paginationInfo.currentPage - 1 > 0) {
-            onPrevPage(paginationInfo.currentPage - 1);
-            setPaginationInfo((prev) => ({
-                ...prev,
-                currentPage: prev.currentPage - 1,
-            }));
-        } else {
-            notify('This is the first page!', 'error');
-        }
+        setCurrentPageClick((prev) => ({
+            ...prev,
+            prevPageTotal: prev.prevPageTotal + 1,
+        }));
     };
 
     const handleCheckAll = () => {

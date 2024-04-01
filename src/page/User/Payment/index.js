@@ -1,9 +1,10 @@
 import axios from 'axios';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function Payment() {
+    const navigate = useNavigate();
     function parseQueryString(url) {
         // Nếu không có URL được cung cấp, sử dụng URL hiện tại của trình duyệt
         const queryString = url ? new URL(url).search : window.location.search;
@@ -43,6 +44,20 @@ function Payment() {
     const queryParams = parseQueryString();
     console.log(queryParams);
 
+    const [checkPayment, setCheckPayment] = useState(false);
+    useEffect(() => {
+        const queryParams = parseQueryString();
+        if (
+            queryParams.vnp_ResponseCode === '24' ||
+            queryParams.vnp_TransactionStatus === '02' ||
+            queryParams.vnp_TransactionNo === '0'
+        ) {
+            alert('Đã hủy thanh toán');
+            navigate('/user/cart');
+        } else {
+            setCheckPayment(true);
+        }
+    }, []);
     const token = localStorage.getItem('token');
 
     const listCartItemsString = localStorage.getItem('listCartItems');
@@ -66,7 +81,6 @@ function Payment() {
         }
     };
 
-    const navigate = useNavigate();
     const handleSavePayment = async () => {
         const requestData = parseQueryString();
         console.log(requestData);
@@ -80,12 +94,11 @@ function Payment() {
         setResPayment(res.data);
         console.log(res.data);
         if (res.data.resCode === '200') {
-            const voucherId = localStorage.getItem('voucherId') || {};
+            const voucherId = localStorage.getItem('voucherId') || null;
             const listCartItems = listCartItemsString.split(',').map(Number);
             const orderRequest = {
                 cartItemIds: listCartItems,
                 code: res.data.bankCode,
-                // bankTranNo: res.data.bankTranNo,
                 voucherId: voucherId,
                 paymentDay: res.data.payDay,
             };
@@ -106,16 +119,22 @@ function Payment() {
     return (
         <div className="h-screen w-screen bg-gray-50 flex items-center">
             <div className="container flex flex-col md:flex-row items-center justify-between px-5 text-gray-700">
-                <div className="w-full lg:w-1/2 mx-8">
-                    <div className="text-7xl text-green-500 font-dark font-extrabold mb-8"> 200</div>
-                    <p className="text-2xl md:text-3xl font-light leading-normal mb-8"> Please Confirm Your Payment</p>
-                    <button
-                        onClick={handleSavePayment}
-                        className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-green-600 active:bg-red-600 hover:bg-red-700"
-                    >
-                        confirm
-                    </button>
-                </div>
+                {checkPayment && (
+                    <div className="w-full lg:w-1/2 mx-8">
+                        <div className="text-7xl text-green-500 font-dark font-extrabold mb-8"> 200</div>
+                        <p className="text-2xl md:text-3xl font-light leading-normal mb-8">
+                            {' '}
+                            Please Confirm Your Payment
+                        </p>
+
+                        <button
+                            onClick={handleSavePayment}
+                            className="px-5 inline py-3 text-sm font-medium leading-5 shadow-2xl text-white transition-all duration-400 border border-transparent rounded-lg focus:outline-none bg-green-600 active:bg-red-600 hover:bg-red-700"
+                        >
+                            confirm
+                        </button>
+                    </div>
+                )}
                 <div className="w-full lg:flex lg:justify-end lg:w-1/2 mx-5 my-12">
                     <img
                         src="https://i.pinimg.com/564x/e6/8c/24/e68c24a887072e6acd15ed9ce57e0bf0.jpg"

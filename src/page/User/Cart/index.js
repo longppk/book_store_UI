@@ -198,8 +198,10 @@ function Cart() {
                 console.log(param);
                 const url = res.data.data;
                 localStorage.setItem('listCartItems', checkedCartIds);
-                window.close();
-                window.open(url, '_blank');
+                // window.close();
+                window.location.href = url;
+                // setTimeout(() => {
+                // }, [3000]);
             }
             // console.log(urlPayment);
 
